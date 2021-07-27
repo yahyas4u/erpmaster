@@ -124,7 +124,7 @@
 		  </tr>
 		<?php $total_product_tax = 0;?>
                 @foreach($lims_product_sale_data as $k=>$product_sale_data)
-          <?php 
+          		<?php 
                     $lims_product_data = \App\Product::find($product_sale_data->product_id);
                     if($product_sale_data->variant_id) {
                         $variant_data = \App\Variant::find($product_sale_data->variant_id);
@@ -132,7 +132,12 @@
                     }
                     else
                         $product_name = $lims_product_data->name;
+					if($lims_product_data->type == 'digital'){
+						 $lims_product_data = \App\Product::find($product_sale_data->product_id);
+					}
                 ?>
+	            @if($lims_product_data->type == 'digital')
+	 
 				<tr style="text-align: left">
 					<td style="width: 5%">{{$k+1}}</td>
 					<td style="width: 40%">{{$product_name}}<br/>{{$lims_product_data->namear}}</td>
@@ -143,6 +148,18 @@
 					<td style="width: 20%" align="right"><span>{{number_format((float)($product_sale_data->total), 3, '.', '')}}</td>
 				
 				</tr>
+				@else
+				<tr style="text-align: left">
+					<td style="width: 5%">{{$k+1}}</td>
+					<td style="width: 40%">{{$product_name}}<br/>{{$lims_product_data->namear}}</td>
+					<td style="width: 5%">{{$product_sale_data->qty}}</td>
+					<td style="width: 15%" align="center">{{number_format((float)$product_sale_data->net_unit_price, 3, '.', '')}}</td>
+					<td style="width: 15%" align="center">{{number_format((float)$product_sale_data->discount, 3, '.', '')}}</td>
+					<td style="width: 15%" align="center">{{number_format((float)$product_sale_data->tax, 3, '.', '')}}</td>
+					<td style="width: 20%" align="right"><span>{{number_format((float)($product_sale_data->total), 3, '.', '')}}</td>
+				
+				</tr>
+				@endif
 		 @endforeach
 	  </table>
                 <?php $total_product_tax = 0;?>

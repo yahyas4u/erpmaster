@@ -227,6 +227,7 @@ class ProductController extends Controller
         ]);
         $data = $request->except('image', 'file');
         $data['name'] = htmlspecialchars($data['name']);
+        $data['qty'] = $data['alert_quantity'];
         if($data['type'] == 'combo'){
             $data['product_list'] = implode(",", $data['product_id']);
             $data['qty_list'] = implode(",", $data['product_qty']);
@@ -264,7 +265,15 @@ class ProductController extends Controller
             $file->move('public/product/files', $fileName);
             $data['file'] = $fileName;
         }
+        
         $lims_product_data = Product::create($data);
+        $lims_product_warehouse_data = new Product_Warehouse();
+        $lims_product_warehouse_data->product_id = $lims_product_data->id;
+        $lims_product_warehouse_data->warehouse_id = 1;
+        $lims_product_warehouse_data->qty = $data['alert_quantity'];
+        $lims_product_warehouse_data->price=$data['price'];
+        $lims_product_warehouse_data->save();
+        
         //dealing with product variant
         if(isset($data['is_variant'])) {
             foreach ($data['variant_name'] as $key => $variant_name) {
@@ -281,6 +290,7 @@ class ProductController extends Controller
                 $lims_product_variant_data->save();
             }
         }
+        
         if(isset($data['is_diffPrice'])) {
             foreach ($data['diff_price'] as $key => $diff_price) {
                 if($diff_price) {

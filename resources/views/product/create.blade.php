@@ -58,7 +58,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                </div><!--
                                 <div id="digital" class="col-md-4">
                                     <div class="form-group">
                                         <label>{{trans('file.Attach File')}} *</strong> </label>
@@ -67,7 +67,7 @@
                                         </div>
                                         <span class="validation-msg"></span>
                                     </div>                                
-                                </div>
+                                </div>-->
                                 <div id="combo" class="col-md-9 mb-1">
                                     <label>{{trans('file.add_product')}}</label>
                                     <div class="search-box input-group mb-3">
@@ -168,7 +168,7 @@
                                 </div>
                                 <div id="alert-qty" class="col-md-4">
                                     <div class="form-group">
-                                        <label>{{trans('file.Alert Quantity')}}</strong> </label>
+                                        <label>Quantity</strong> </label>
                                         <input type="number" name="alert_quantity" class="form-control" step="any">
                                     </div>
                                 </div>
@@ -711,7 +711,7 @@
                             url:'{{route('products.store')}}',
                             data: $("#product-form").serialize(),
                             success:function(response){
-                                //console.log(response);
+                                console.log(response);
                                 location.href = '../products';
                             },
                             error:function(response) {
